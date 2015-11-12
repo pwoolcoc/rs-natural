@@ -12,8 +12,4 @@ version = "0.1.27"
 
 [dependencies.stem]
 git = "https://github.com/mrordinaire/rust-stem"
-optional = true
 
-[features]
-default = []
-stemming = ["stem"]

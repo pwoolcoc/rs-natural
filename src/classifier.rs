@@ -1,7 +1,5 @@
-#[cfg(feature = "stemming")]
 use tokenize::tokenize;
-#[cfg(feature = "stemming")]
-use stem::get;
+use stem;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use num::Float;
@@ -61,13 +59,9 @@ impl NaiveBayesClassifier {
   }
 }
 
-#[cfg(feature = "stemming")]
-fn get_tokenized_and_stemmed<T:Str>(text: T) -> Vec<String> {
-  let tokenized_text = tokenize(text.as_slice());
-  Vec::from_fn(tokenized_text.len(), |idx| stem::get(tokenized_text[idx]).unwrap())
-}
-
-#[cfg(not(feature = "stemming"))]
-fn get_tokenized_and_stemmed<T: AsRef<str>>(_: T) -> Vec<String> {
-  vec![]
+fn get_tokenized_and_stemmed<T:AsRef<str>>(text: T) -> Vec<String> {
+  let tokenized_text = tokenize(text.as_ref());
+  (0..tokenized_text.len()).map(|idx| {
+    stem::get(tokenized_text[idx]).unwrap()
+  }).collect()
 }

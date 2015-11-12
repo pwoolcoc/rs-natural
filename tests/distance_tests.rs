@@ -1,8 +1,9 @@
 extern crate natural;
+extern crate num;
 
 use natural::distance::jaro_winkler_distance;
 use natural::distance::levenshtein_distance;
-use std::num::Float;
+use num::Float;
 
 #[test]
 fn test_jaro_winkler() {
