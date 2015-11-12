@@ -2,8 +2,20 @@
 name = "natural"
 version = "0.1.0"
 dependencies = [
+ "edit-distance 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num 0.1.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "stem 0.1.0 (git+https://github.com/mrordinaire/rust-stem)",
 ]
+
+[[package]]
+name = "edit-distance"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "num"
+version = "0.1.27"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "stem"

@@ -1,10 +1,12 @@
+use edit_distance::edit_distance;
+
 struct CalcObjects<'a> {
   first: &'a str,
   second: &'a str,
 }
 
 impl<'a> CalcObjects<'a> {
-  fn max_length(&self) -> uint {
+  fn max_length(&self) -> usize {
     return if self.first.len() > self.second.len() {
       self.first.len()
     }
@@ -21,7 +23,7 @@ struct JaroWinkler<'a> {
 }
 
 impl<'b> JaroWinkler<'b> {
-  fn new<'b> (this_obj: CalcObjects<'b>) -> JaroWinkler<'b> {
+  fn new(this_obj: CalcObjects<'b>) -> JaroWinkler<'b> {
     let mut jw = JaroWinkler {
       co: this_obj,
       matches1: Vec::new(),
@@ -48,20 +50,20 @@ impl<'b> JaroWinkler<'b> {
     }
     
     for (i,c) in f.chars().enumerate() {
-      let s_index: uint = if i < match_buffer {
+      let s_index: usize = if i < match_buffer {
         0
       }
       else {
         i - match_buffer
       };
-      let e_index: uint = if s.len() <= i + match_buffer { 
+      let e_index: usize = if s.len() <= i + match_buffer { 
         s.len() 
       }
       else { 
         i + match_buffer + 1
       };
-      let word_slice = s.slice(s_index, e_index);
-      if word_slice.contains_char(c) {
+      let word_slice = &s[s_index..e_index];
+      if word_slice.contains(c) {
         common_chars.push(c);
       }
     }
@@ -77,9 +79,8 @@ impl<'b> JaroWinkler<'b> {
     }
     
     let mut t = 0.0;
-    let n = self.matches1.len();
-    for i in range(0u,n) {
-      if self.matches2[i] != self.matches1[i] {
+    for (one, two) in self.matches1.iter().zip(self.matches2.iter()) {
+      if two != one {
         t += 0.5;
       }
     }
@@ -90,13 +91,13 @@ impl<'b> JaroWinkler<'b> {
   }
 }
 
-pub fn jaro_winkler_distance<T:Str, U:Str>(str1: T, str2: U) -> f32 {
-  let jw = JaroWinkler::new(CalcObjects{ first: str1.as_slice(), second: str2.as_slice() });
+pub fn jaro_winkler_distance<T:AsRef<str>, U:AsRef<str>>(str1: T, str2: U) -> f32 {
+  let jw = JaroWinkler::new(CalcObjects{ first: str1.as_ref(), second: str2.as_ref() });
   jw.calculate()
 }
 
-pub fn levenshtein_distance<T:Str, U:Str>(str1: T, str2: U) -> uint {
-  let a = str1.as_slice();
-  let b = str2.as_slice();
-  a.lev_distance(b)
+pub fn levenshtein_distance<T:AsRef<str>, U:AsRef<str>>(str1: T, str2: U) -> usize {
+  let a = str1.as_ref();
+  let b = str2.as_ref();
+  edit_distance(a, b) as usize
 }

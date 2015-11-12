@@ -1,3 +1,7 @@
+extern crate num;
+extern crate edit_distance;
+
+#[cfg(feature = "stemming")]
 extern crate stem;
 
 pub mod distance;

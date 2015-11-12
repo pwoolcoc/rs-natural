@@ -1,8 +1,19 @@
 [package]
-
+authors = ["chris@cjqed.com"]
 name = "natural"
 version = "0.1.0"
-authors = [ "chris@cjqed.com" ]
+
+[dependencies]
+edit-distance = "1.0.0"
+
+[dependencies.num]
+default-features = false
+version = "0.1.27"
 
 [dependencies.stem]
 git = "https://github.com/mrordinaire/rust-stem"
+optional = true
+
+[features]
+default = []
+stemming = ["stem"]
