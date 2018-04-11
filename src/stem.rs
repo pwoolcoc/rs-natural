@@ -217,6 +217,7 @@ impl Stemmer {
     }
 
     fn step3(&mut self) {
+        if self.k < 1 { return }
         match self.b[self.k - 1] {
             b'e' => {
                 if self.ends("icate") { self.r("ic"); return }
@@ -234,6 +235,7 @@ impl Stemmer {
     }
 
     fn step4(&mut self) {
+        if self.k < 2 { return }
         match self.b[self.k - 2] {
             b'a' => {
                 if self.ends("al") {}
