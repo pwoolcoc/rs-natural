@@ -172,6 +172,7 @@ impl Stemmer {
     }
 
     fn step2(&mut self) {
+        if self.k < 2 { return }
         match self.b[self.k - 2] {
             b'a' => {
                 if self.ends("ational") { self.r("ate"); return }
